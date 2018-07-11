@@ -6,8 +6,8 @@
 
 <script>
   export default {
-    name: 'step-stool'
-  }
+    name: 'step-stool',
+  };
 </script>
 
 <style>
