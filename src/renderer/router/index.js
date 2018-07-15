@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/LandingPage').default,
     },
     {
+      path: '/netcorebuild',
+      name: 'netcorebuild',
+      component: require('@/components/NetCoreBuild').default,
+    },
+    {
       path: '*',
       redirect: '/',
     },

@@ -21,6 +21,10 @@
         </div>
         <div class="doc">
           <div class="title alt">Other Documentation</div>
+          <el-input v-model="input" placeholder="请输入内容"></el-input>
+          <el-button type="primary">主要按钮</el-button>
+          <span>{{input}}</span>
+          <router-link to="netcorebuild">test</router-link>
           <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
           <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
         </div>
@@ -34,6 +38,11 @@
 
   export default {
     name: 'landing-page',
+    data() {
+      return {
+        input: '',
+      };
+    },
     components: { SystemInformation },
     methods: {
       open(link) {
