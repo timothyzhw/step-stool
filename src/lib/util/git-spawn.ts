@@ -7,10 +7,9 @@ type ProcessOutput = {
 }
 
 /**
- * Spawn a exe process and buffer the stdout and stderr streams, deferring
+ * Spawn a Git process and buffer the stdout and stderr streams, deferring
  * all processing work to the caller.
  *
- * @param command The command to spawn
  * @param args Array of strings to pass to the Git executable.
  * @param path The path to execute the command from.
  * @param name The name of the operation - for tracing purposes.
@@ -21,14 +20,13 @@ type ProcessOutput = {
  *                         returned.
  */
 export function spawnAndComplete(
-  command: string,
   args: string[],
   path: string,
   name: string,
   successExitCodes?: Set<number>,
   stdOutMaxLength?: number
 ): Promise<ProcessOutput> {
-  const commandName = `${name}: ${command} ${args.join(' ')}`
+  const commandName = `${name}: git ${args.join(' ')}`
   return GitPerf.measure(
     commandName,
     () =>
