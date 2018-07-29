@@ -21,8 +21,8 @@
         </div>
         <div class="doc">
           <div class="title alt">Other Documentation</div>
-          <el-input v-model="input" placeholder="请输入内容"></el-input>
-          <el-button type="primary">主要按钮</el-button>
+
+          <Button type="primary">主要按钮</Button>
           <span>{{input}}</span>
           <router-link to="netcorebuild">test</router-link>
           <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
