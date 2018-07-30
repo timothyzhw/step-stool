@@ -1,22 +1,11 @@
 <template>
-    <div class="layout">
-        <Sider class="sider"
-               :collapsible="false" width="44">
-            <Menu active-name="1-2" theme="dark" mode="vertical" width="auto" :open-names="['1']">
-                <MenuItem name="1" title="build solution">
-                    <Icon type="md-archive"/>
-                </MenuItem>
-                <MenuItem name="2" title="pack and deploy">
-                    <Icon type="md-cloud-upload"/>
-                </MenuItem>
-                <MenuItem name="3" title="setting">
-                    <Icon type="md-settings"/>
-                </MenuItem>
-            </Menu>
-        </Sider>
-        <Layout :style="{marginLeft: '45px'}">
-            <Header :style="{background: '#fff'}"></Header>
-            <Content  class="main-container">
+    <ssLayout>
+        <template>
+            <Header :style="{background: '#fff'}">
+                <Button @click="gitstatus()">git status</Button>
+                <Button @click="spawn()">ifconfig</Button>
+            </Header>
+            <Content class="main-container">
                 <Breadcrumb :style="{margin: '16px 0'}">
                     <BreadcrumbItem>main</BreadcrumbItem>
                     <BreadcrumbItem>build</BreadcrumbItem>
@@ -25,8 +14,44 @@
                     <div style="height: 800px;">
                         <Split v-model="split1">
                             <div slot="left" class="demo-split-pane">
-                                <Button @click="gitstatus()">git status</Button>
-                                <Button @click="spawn()">ifconfig</Button>
+                                <Menu :theme="theme2">
+                                    <Submenu name="1">
+                                        <template slot="title">
+                                            <Icon type="ios-albums"/>
+                                            VaShare.Core
+                                        </template>
+                                        <MenuItem name="1-1">文章管理</MenuItem>
+                                        <MenuItem name="1-2">评论管理</MenuItem>
+                                        <MenuItem name="1-3">举报管理</MenuItem>
+                                    </Submenu>
+                                    <Submenu name="2">
+                                        <template slot="title">
+                                            <Checkbox label="twitter">
+                                                <Icon type="ios-people"/>
+                                                用户管理
+                                            </Checkbox>
+
+                                        </template>
+                                        <MenuItem name="2-1">新增用户</MenuItem>
+                                        <MenuItem name="2-2">活跃用户</MenuItem>
+                                    </Submenu>
+                                    <Submenu name="3">
+                                        <template slot="title">
+                                            <Icon type="ios-stats"/>
+                                            统计分析
+                                            <i-switch v-model="switch1" size="small"></i-switch>
+                                        </template>
+                                        <MenuGroup title="使用">
+                                            <MenuItem name="3-1">新增和启动</MenuItem>
+                                            <MenuItem name="3-2">活跃分析</MenuItem>
+                                            <MenuItem name="3-3">时段分析</MenuItem>
+                                        </MenuGroup>
+                                        <MenuGroup title="留存">
+                                            <MenuItem name="3-4">用户留存</MenuItem>
+                                            <MenuItem name="3-5">流失用户</MenuItem>
+                                        </MenuGroup>
+                                    </Submenu>
+                                </Menu>
                             </div>
                             <div slot="right" class="demo-split-pane">
                                 <span>{{statusText}}</span>
@@ -44,18 +69,20 @@
                     </div>
                 </Content>
             </Content>
-        </Layout>
-    </div>
+        </template>
+    </ssLayout>
+
 </template>
 
 
 <script>
   import { GitProcess, GitError, IGitResult } from 'dugite';
   import Process from '../util/process';
+  import ssLayout from './StepStoolLayout.vue';
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
   export default {
-    name: 'NetBuild',
+    name: 'NetCoreBuild',
     data() {
       return {
         split1: 0.3,
@@ -64,7 +91,11 @@
         spawnText: '',
         logs: [],
         errorLogs: [],
+        switch1: false,
       };
+    },
+    components: {
+      ssLayout,
     },
     methods: {
       async gitstatus() {
@@ -128,7 +159,8 @@
         background: #fff;
         box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
     }
-    .ivu-card{
+
+    .ivu-card {
         border-color: red !important;
     }
 
@@ -150,8 +182,9 @@
     .main-container {
         padding: 0;
     }
-    .content{
-        border:1px solid #dcdee2;
+
+    .content {
+        border: 1px solid #dcdee2;
     }
 
 </style>
