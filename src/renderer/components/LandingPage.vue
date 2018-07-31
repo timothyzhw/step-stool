@@ -25,6 +25,7 @@
           <Button type="primary">主要按钮</Button>
           <span>{{input}}</span>
           <router-link to="netcorebuild">test</router-link>
+          <router-link to="solution">solution analyse</router-link>
           <button class="alt" @click="open('https://electron.atom.io/docs/')">Electron</button>
           <button class="alt" @click="open('https://vuejs.org/v2/guide/')">Vue.js</button>
         </div>

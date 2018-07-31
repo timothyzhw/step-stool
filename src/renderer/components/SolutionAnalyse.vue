@@ -2,19 +2,19 @@
     <ssLayout>
         <template>
             <Header :style="{background: '#fff'}">
-                <Button @click="gitstatus()">git status</Button>
                 <Button @click="spawn()">ifconfig</Button>
+                <Button @click="sln()">sln</Button>
             </Header>
             <Content class="main-container">
                 <Breadcrumb :style="{margin: '16px 0'}">
                     <BreadcrumbItem>main</BreadcrumbItem>
-                    <BreadcrumbItem>build</BreadcrumbItem>
+                    <BreadcrumbItem>solution</BreadcrumbItem>
                 </Breadcrumb>
                 <Content class="content">
                     <div style="height: 800px;">
                         <Split v-model="split1">
                             <div slot="left" class="demo-split-pane">
-                                <Menu :theme="theme2">
+                                <Menu>
                                     <Submenu name="1">
                                         <template slot="title">
                                             <Icon type="ios-albums"/>
@@ -23,33 +23,6 @@
                                         <MenuItem name="1-1">文章管理</MenuItem>
                                         <MenuItem name="1-2">评论管理</MenuItem>
                                         <MenuItem name="1-3">举报管理</MenuItem>
-                                    </Submenu>
-                                    <Submenu name="2">
-                                        <template slot="title">
-                                            <Checkbox label="twitter">
-                                                <Icon type="ios-people"/>
-                                                用户管理
-                                            </Checkbox>
-
-                                        </template>
-                                        <MenuItem name="2-1">新增用户</MenuItem>
-                                        <MenuItem name="2-2">活跃用户</MenuItem>
-                                    </Submenu>
-                                    <Submenu name="3">
-                                        <template slot="title">
-                                            <Icon type="ios-stats"/>
-                                            统计分析
-                                            <i-switch v-model="switch1" size="small"></i-switch>
-                                        </template>
-                                        <MenuGroup title="使用">
-                                            <MenuItem name="3-1">新增和启动</MenuItem>
-                                            <MenuItem name="3-2">活跃分析</MenuItem>
-                                            <MenuItem name="3-3">时段分析</MenuItem>
-                                        </MenuGroup>
-                                        <MenuGroup title="留存">
-                                            <MenuItem name="3-4">用户留存</MenuItem>
-                                            <MenuItem name="3-5">流失用户</MenuItem>
-                                        </MenuGroup>
                                     </Submenu>
                                 </Menu>
                             </div>
@@ -77,12 +50,15 @@
 
 <script>
   import { GitProcess, GitError, IGitResult } from 'dugite';
+  import path from 'path';
+  import fs from 'fs';
   import Process from '../util/process';
   import ssLayout from './StepStoolLayout.vue';
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
+  const slnFile = '/Users/tim/Vashare/vashare/Core/VaShare.Core.All.sln';
   export default {
-    name: 'NetCoreBuild',
+    name: 'solution',
     data() {
       return {
         split1: 0.3,
@@ -98,20 +74,6 @@
       ssLayout,
     },
     methods: {
-      async gitstatus() {
-        const result = await GitProcess.exec(['status'], pathToRepository);
-        if (result.exitCode === 0) {
-          const output = result.stdout;
-          console.log(output);
-          this.statusText = output;
-          // do some things with the output
-        } else {
-          const error = result.stderr;
-          this.errorText = error;
-          console.log(error);
-          // error handling
-        }
-      },
       async spawn() {
         // const result = await Process.exec('ifconfig');
         // if (result.exitCode === 0) {
@@ -126,7 +88,7 @@
         //   // error handling
         // }
         const process = Process.spawnUtil('dotnet', ['build', '/home/tim/Documents/vashare/vashare/Core/VaShare.Core.All.sln', '-p:TargetFramework=netstandard2.0', '-p:BuildPlatform=linux'], null,
-        // const process = Process.spawnUtil('pwd', [], null,
+          // const process = Process.spawnUtil('pwd', [], null,
           (data) => {
             console.log(`msg: ${data}`);
             this.logs.push(data.toString());
@@ -139,6 +101,25 @@
             console.log(`end with ${code}`);
           });
         // this.spawnText = Process.getName();
+      },
+      async sln() {
+        const dirName = path.dirname(slnFile);
+        console.log(dirName);
+        try {
+          const res = await Process.exec(`dotnet sln ${slnFile} list`);
+          if (res.exitCode === 0) {
+            const projs = res.stdout.split('\n');
+            console.log(projs);
+            projs.forEach((proj) => {
+              if (proj && fs.existsSync(path.join('/Users/tim/Vashare/vashare/Core/', proj))) {
+                console.log(proj);
+                console.log(path.join('/Users/tim/Vashare/vashare/Core/', proj));
+              }
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
       },
 
     },
