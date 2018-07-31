@@ -54,6 +54,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "dugite": "^1.68.0",
+    "fix-path": "^2.1.0",
     "iview": "^3.0.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",

@@ -26,7 +26,7 @@
                         <Split v-model="split1">
                             <div slot="left" class="demo-split-pane">
                                 <Button @click="gitstatus()">git status</Button>
-                                <Button @click="spawn()">ifconfig</Button>
+                                <Button @click="spawn()">build core</Button>
                             </div>
                             <div slot="right" class="demo-split-pane">
                                 <span>{{statusText}}</span>
@@ -94,8 +94,8 @@
         //   console.log(error);
         //   // error handling
         // }
-        const process = Process.spawnUtil('dotnet', ['build', '/Users/tim/Vashare/vashare/Core/VaShare.Core.All.sln', '-p:TargetFramework=netstandard2.0'], null,
-          // const process = Process.spawnUtil('pwd', [], null,
+        const process = Process.spawnUtil('dotnet', ['build', '/home/tim/Documents/vashare/vashare/Core/VaShare.Core.All.sln', '-p:TargetFramework=netstandard2.0', '-p:BuildPlatform=linux'], null,
+        // const process = Process.spawnUtil('pwd', [], null,
           (data) => {
             console.log(`msg: ${data}`);
             this.logs.push(data.toString());

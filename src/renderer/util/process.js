@@ -97,7 +97,7 @@ export default class Process {
     if (options && options.env) {
       customEnv = options.env;
     }
-    customEnv.cwd = '/Users/tim/Vashare/vashare/Core';
+    // customEnv.cwd = '/Users/tim/Vashare/vashare/Core';
 
     const spawnedProcess = spawn(command, args, customEnv);
     ignoreClosedInputStream(spawnedProcess);
