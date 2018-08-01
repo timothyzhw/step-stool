@@ -4,6 +4,7 @@
             <Header :style="{background: '#fff'}">
                 <Button @click="gitstatus()">git status</Button>
                 <Button @click="spawn()">ifconfig</Button>
+                <Button @click="testfile()">test</Button>
             </Header>
             <Content class="main-container">
                 <Breadcrumb :style="{margin: '16px 0'}">
@@ -14,11 +15,7 @@
                     <div style="height: 800px;">
                         <Split v-model="split1">
                             <div slot="left" class="demo-split-pane">
-<<<<<<< HEAD
-                                <Button @click="gitstatus()">git status</Button>
-                                <Button @click="spawn()">build core</Button>
-=======
-                                <Menu :theme="theme2">
+                                <Menu theme="dark">
                                     <Submenu name="1">
                                         <template slot="title">
                                             <Icon type="ios-albums"/>
@@ -56,7 +53,6 @@
                                         </MenuGroup>
                                     </Submenu>
                                 </Menu>
->>>>>>> 78d78b34d06d5a9ecd0c3a02e16a5ad649ff321c
                             </div>
                             <div slot="right" class="demo-split-pane">
                                 <span>{{statusText}}</span>
@@ -82,8 +78,12 @@
 
 <script>
   import { GitProcess, GitError, IGitResult } from 'dugite';
+
+
   import Process from '../util/process';
   import ssLayout from './StepStoolLayout.vue';
+  import { code } from '../datastore';
+  import cf from '../util/build/codeConfig';
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
   export default {
@@ -104,18 +104,19 @@
     },
     methods: {
       async gitstatus() {
-        const result = await GitProcess.exec(['status'], pathToRepository);
-        if (result.exitCode === 0) {
-          const output = result.stdout;
-          console.log(output);
-          this.statusText = output;
-          // do some things with the output
-        } else {
-          const error = result.stderr;
-          this.errorText = error;
-          console.log(error);
-          // error handling
-        }
+        // const result = await GitProcess.exec(['status'], pathToRepository);
+        // if (result.exitCode === 0) {
+        //   const output = result.stdout;
+        //   console.log(output);
+        //   this.statusText = output;
+        //   // do some things with the output
+        // } else {
+        //   const error = result.stderr;
+        //   this.errorText = error;
+        //   console.log(error);
+        //   // error handling
+        // }
+        console.log('test');
       },
       async spawn() {
         // const result = await Process.exec('ifconfig');
@@ -131,7 +132,7 @@
         //   // error handling
         // }
         const process = Process.spawnUtil('dotnet', ['build', '/home/tim/Documents/vashare/vashare/Core/VaShare.Core.All.sln', '-p:TargetFramework=netstandard2.0', '-p:BuildPlatform=linux'], null,
-        // const process = Process.spawnUtil('pwd', [], null,
+          // const process = Process.spawnUtil('pwd', [], null,
           (data) => {
             console.log(`msg: ${data}`);
             this.logs.push(data.toString());
@@ -145,7 +146,13 @@
           });
         // this.spawnText = Process.getName();
       },
-
+      testfile() {
+        // await this.$code.set('isSet', true).write();
+        console.log('test');
+        cf.add();
+        // codeConfig.add();
+        console.log('tested');
+      },
     },
   };
   //  electron-run-shell-example-master

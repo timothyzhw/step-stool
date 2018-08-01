@@ -1,4 +1,6 @@
 import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import glob from 'glob';
+import path from 'path';
 
 /**
  * Set `__static` path to static files in production
@@ -44,6 +46,20 @@ app.on('activate', () => {
   }
 });
 
+// Require each JS file in the main-process dir
+function loadCodeBuild() {
+  // console.log('loadbuild');
+  // const files = glob.sync(path.join(__dirname, 'build/*.js'));
+  // console.log(files);
+  // files.forEach((file) => {
+  //   console.log(file);
+  //   import(file);
+  // });
+  // autoUpdater.updateMenu()
+  import('./build/codeConfig.js');
+}
+
+loadCodeBuild();
 /**
  * Auto Updater
  *
