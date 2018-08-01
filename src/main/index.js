@@ -30,6 +30,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  // BrowserWindow.addDevToolsExtension('node_modules/vue-devtools');
 }
 
 app.on('ready', createWindow);

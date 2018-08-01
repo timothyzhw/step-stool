@@ -21,8 +21,8 @@ ipcMain.on('open-build-code-add-dialog', (event) => {
     filters: [{ name: 'solution', extensions: ['sln'] }],
     properties: ['openFile'],
   }, (files) => {
-    if (files) {
-      event.sender.send('build-code-add-dialog', files);
+    if (files && files.length > 0) {
+      event.sender.send('build-code-add-dialog', files[0]);
     }
   });
 });
