@@ -20,7 +20,7 @@
                 </MenuItem>
             </Menu>
         </Sider>
-        <Layout :style="{marginLeft: '45px'}">
+        <Layout :style="{marginLeft: '45px'}" class="container">
             <slot></slot>
 
         </Layout>
@@ -71,12 +71,13 @@
         padding: 14px 12px;
     }
 
-    .main-container {
-        padding: 0;
-    }
-
-    .content {
-        border: 1px solid #dcdee2;
+    .container {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        bottom: 10px;
+        left: 0;
     }
 
 </style>

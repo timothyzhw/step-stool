@@ -4,20 +4,51 @@ import path from 'path';
 
 import { code } from '../datastore';
 import store from '../../store';
+import Process from '../process';
 
 const codeConfig = {
   add() {
     ipcRenderer.send('open-build-code-add-dialog');
   },
 
-  load() {
-    const slns = code.get('solutions').value();
-    console.log(slns);
+  async load() {
+    const slns = await Promise.all(code.get('solutions').value().map(async (item) => {
+      const sln = Object.assign({}, item);
+      sln.projects = await this.getProjects(sln.filepath);
+      console.log(sln);
+      return sln;
+    }));
     store.dispatch('buildLoadSolution', slns);
+  },
+
+  async getProjects(sln) {
+    const projList = [];
+    try {
+      const res = await Process.exec(`dotnet sln ${sln} list`);
+
+      if (res.exitCode === 0) {
+        console.log('get proj ', sln, res);
+        const projs = res.stdout.replace(/\r\n/g, '\n').split('\n');
+        const dirname = path.dirname(sln);
+        projs.forEach((proj) => {
+          // console.log(proj);
+          const projpath = path.join(dirname, proj);
+          if (proj && fs.existsSync(projpath)) {
+            console.log(proj);
+            projList.push({ name: path.basename(projpath, '.csproj'), filepath: projpath });
+          }
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    return projList;
   },
 };
 
-ipcRenderer.on('build-code-add-dialog', (event, filepath) => {
+codeConfig.load();
+
+ipcRenderer.on('build-code-add-dialog', async (event, filepath) => {
 
   console.log(`You selected: ${filepath}`);
 
@@ -25,12 +56,9 @@ ipcRenderer.on('build-code-add-dialog', (event, filepath) => {
     const slns = code.get('solutions');
     const sln = { filepath, name: path.basename(filepath, '.sln'), index: slns.size().value() + 1 };
     if (!slns.find({ filepath }).value()) {
-      console.warn('write 1');
-      slns.push(sln).write();
+      await code.get('solutions').push(sln).write();
+      store.dispatch('buildAddSolution', sln);
     }
-    store.dispatch('buildAddSolution', sln);
-
-    console.log(slns);
   }
 });
 

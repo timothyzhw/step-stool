@@ -5,7 +5,8 @@ const state = {
 
 const mutations = {
   ADD_SOLUTION(state, solution) {
-    state.solutions.push(solution);
+    console.log('add solution');
+    state.solutions.push(Object.assign({}, solution));
   },
 
   LOAD_SOLUTIONS(state, solutionList) {
@@ -22,7 +23,6 @@ const actions = {
   },
 
   buildLoadSolution(context, solutionList) {
-    console.log('test');
     context.commit('LOAD_SOLUTIONS', solutionList);
   },
 };

@@ -12,25 +12,25 @@
                     <BreadcrumbItem>build</BreadcrumbItem>
                 </Breadcrumb>
                 <Content class="content">
-                    <div style="height: 800px;">
-                        <Split v-model="split1">
-                            <div slot="left" class="demo-split-pane">
-                                <solution></solution>
-                            </div>
-                            <div slot="right" class="demo-split-pane">
-                                <span>{{statusText}}</span>
-                                <span>{{spawnText}}</span>
-                                <div v-for="log in logs">
+                    <Split v-model="split1">
+                        <div slot="left" class="split-left">
+                            <solution></solution>
+                        </div>
+                        <div slot="right" class="split-right">
+                            <span>{{statusText}}</span>
+                            <span>{{spawnText}}</span>
+                            <div v-for="log in logs">
 
-                                    <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0" style="color: red;">{{log}}</pre>
-                                    <pre v-else>{{log}}</pre>
-                                </div>
-                                <div style="color:red" v-for="log in errorLogs">
-                                    <div style="background-color: aqua">{{log}}</div>
-                                </div>
+                                <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0"
+                                     style="color: red;">{{log}}</pre>
+                                <pre v-else>{{log}}</pre>
                             </div>
-                        </Split>
-                    </div>
+                            <div style="color:red" v-for="log in errorLogs">
+                                <div style="background-color: aqua">{{log}}</div>
+                            </div>
+                        </div>
+                    </Split>
+
                 </Content>
             </Content>
         </template>
@@ -125,44 +125,27 @@
 </script>
 
 <style scoped>
-    .layout {
-        border: 1px solid #d7dde4;
-        background: #f5f7f9;
-        position: relative;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .layout-header-bar {
-        background: #fff;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-    }
-
-    .ivu-card {
-        border-color: red !important;
-    }
-
-    .sider {
-        position: fixed;
-        height: 100%;
-        left: 0;
-        overflow: 'auto';
-    }
-
-    .sider .ivu-icon {
-        font-size: 20px;
-    }
-
-    .sider .ivu-menu-item {
-        padding: 14px 12px;
-    }
 
     .main-container {
         padding: 0;
     }
 
     .content {
-        border: 1px solid #dcdee2;
+        /*border: 1px solid red;*/
+        position: fixed;
+        top: 90px;
+        bottom: 10px;
+        left: 46px;
+        right: 0;
+    }
+
+    .split-left, .split-right {
+        height: 100%;
+        overflow: auto;
+    }
+
+    .split-left{
+        background-color: #dcdcdc;
     }
 
 </style>
