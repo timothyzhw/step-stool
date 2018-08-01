@@ -10,16 +10,17 @@
                     @click.prevent.native="handleCheckAll">全选
             </Checkbox>
         </div>
-        <CheckboxGroup v-model="checkSolutions">
-            <Menu style="width: 100%;" theme="dark">
+        <CheckboxGroup v-model="checkedSolutions" @on-change="changeSelected">
+            <Menu style="width: 100%;">
                 <Submenu v-for="sln in solutions" :key="sln.index" :name="sln.index"
-                         style="border-bottom: 1px solid rgba(255,255,255,.3)">
+                         style="border-bottom: 1px solid #e1e4e8">
                     <template slot="title">
                         <Checkbox :label="sln.name">
-                            <Icon type="md-filing"/>
                             <span :title="sln.name">{{sln.name}}</span></Checkbox>
                     </template>
-                    <MenuItem :name="sln.index+'-'+index" v-for="(proj,index) in sln.projects">{{proj.name}}</MenuItem>
+                    <MenuItem style="padding-left:20px" :name="sln.index+'-'+index"
+                              v-for="(proj,index) in sln.projects">{{proj.name}}
+                    </MenuItem>
                 </Submenu>
             </Menu>
         </CheckboxGroup>
@@ -37,8 +38,14 @@
         indeterminate: true,
         checkAll: false,
         solutionsList: [],
-        checkSolutions: [],
+        checkedSolutions: [],
       };
+    },
+    watch: {
+      solutions: function sl(v, oldv) {
+        console.log(this.solutions.filter(item => item.checked));
+        this.checkedSolutions = this.solutions.filter(item => item.checked).map(item => item.name);
+      },
     },
     computed: {
       ...mapState({ solutions: state => state.Build.solutions }),
@@ -61,8 +68,11 @@
           this.checkAllGroup = [];
         }
       },
+      changeSelected(data) {
+        cf.checked(data);
+      },
     },
-    created() {
+    mounted() {
       // cf.load();
     },
   };
@@ -77,6 +87,8 @@
         font-size: 20px;
         padding: 5px;
         text-align: right;
+        height: 40px;
+        border-bottom: 1px solid #e1e4e8;
     }
 
     .solutionlist .bar i {
@@ -93,9 +105,14 @@
         position: absolute;
         top: 10px;
         right: 0;
+        display: none;
     }
 
     .solutionlist .ivu-menu-item, .solutionlist .ivu-menu-submenu-title {
         padding: 5px 10px;
+    }
+
+    .ivu-menu-vertical.ivu-menu-light:after {
+        width: 0;
     }
 </style>

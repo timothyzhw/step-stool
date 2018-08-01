@@ -1,5 +1,6 @@
 const state = {
   solutions: [],
+  selectedSolutions: [],
   logs: [],
 };
 

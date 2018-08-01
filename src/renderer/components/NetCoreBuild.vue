@@ -7,27 +7,14 @@
                 <Button @click="testfile()">test</Button>
             </Header>
             <Content class="main-container">
-                <Breadcrumb>
-                    <BreadcrumbItem>main</BreadcrumbItem>
-                    <BreadcrumbItem>build</BreadcrumbItem>
-                </Breadcrumb>
                 <Content class="content">
                     <Split v-model="split1">
                         <div slot="left" class="split-left">
                             <solution></solution>
                         </div>
                         <div slot="right" class="split-right">
-                            <span>{{statusText}}</span>
-                            <span>{{spawnText}}</span>
-                            <div v-for="log in logs">
+                            <outputSection></outputSection>
 
-                                <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0"
-                                     style="color: red;">{{log}}</pre>
-                                <pre v-else>{{log}}</pre>
-                            </div>
-                            <div style="color:red" v-for="log in errorLogs">
-                                <div style="background-color: aqua">{{log}}</div>
-                            </div>
                         </div>
                     </Split>
 
@@ -49,6 +36,7 @@
   import cf from '../util/build/codeConfig';
 
   import solution from './NetCoreBuild/SolutionList.vue';
+  import outputSection from './NetCoreBuild/BuildOutput.vue';
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
   export default {
@@ -67,6 +55,7 @@
     components: {
       ssLayout,
       solution,
+      outputSection
     },
     methods: {
       async gitstatus() {
@@ -133,19 +122,19 @@
     .content {
         /*border: 1px solid red;*/
         position: fixed;
-        top: 90px;
+        top: 50px;
         bottom: 10px;
-        left: 46px;
+        left: 45px;
         right: 0;
+        border-top: 1px solid #e1e4e8;
     }
 
     .split-left, .split-right {
         height: 100%;
         overflow: auto;
+        background-color: rgb(246, 248, 250);
     }
 
-    .split-left{
-        background-color: #dcdcdc;
-    }
+
 
 </style>

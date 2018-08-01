@@ -10,15 +10,36 @@ const codeConfig = {
   add() {
     ipcRenderer.send('open-build-code-add-dialog');
   },
-
+  checked(list) {
+    const slns = code.get('solutions').value();
+    slns.forEach((sln) => {
+      if (list.includes(sln.name)) {
+        sln.checked = true;
+      } else {
+        sln.checked = false;
+      }
+    });
+    code.write();
+    this.resetStore(slns);
+  },
   async load() {
-    const slns = await Promise.all(code.get('solutions').value().map(async (item) => {
+    this.resetStore(code.get('solutions').value());
+    // const slns = await Promise.all(.map(async (item) => {
+    //   const sln = Object.assign({}, item);
+    //   sln.projects = await this.getProjects(sln.filepath);
+    //   console.log(sln);
+    //   return sln;
+    // }));
+    // store.dispatch('buildLoadSolution', slns);
+  },
+  async resetStore(slns) {
+    const solutions = await Promise.all(slns.map(async (item) => {
       const sln = Object.assign({}, item);
       sln.projects = await this.getProjects(sln.filepath);
       console.log(sln);
       return sln;
     }));
-    store.dispatch('buildLoadSolution', slns);
+    store.dispatch('buildLoadSolution', solutions);
   },
 
   async getProjects(sln) {
@@ -42,7 +63,7 @@ const codeConfig = {
     } catch (e) {
       console.log(e);
     }
-    return projList;
+    return []; // projList;
   },
 };
 
@@ -54,7 +75,7 @@ ipcRenderer.on('build-code-add-dialog', async (event, filepath) => {
 
   if (fs.existsSync(filepath)) {
     const slns = code.get('solutions');
-    const sln = { filepath, name: path.basename(filepath, '.sln'), index: slns.size().value() + 1 };
+    const sln = { filepath, name: path.basename(filepath, '.sln'), checked: true, index: slns.size().value() + 1 };
     if (!slns.find({ filepath }).value()) {
       await code.get('solutions').push(sln).write();
       store.dispatch('buildAddSolution', sln);
