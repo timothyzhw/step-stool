@@ -10,6 +10,11 @@ const codeConfig = {
   add() {
     ipcRenderer.send('open-build-code-add-dialog');
   },
+  remove(list) {
+    const slns = code.get('solutions').value();
+    list.forEach(sln => code.get('solutions').remove({ name: sln }).write());
+    this.resetStore(slns);
+  },
   checked(list) {
     const slns = code.get('solutions').value();
     slns.forEach((sln) => {
@@ -22,6 +27,16 @@ const codeConfig = {
     code.write();
     this.resetStore(slns);
   },
+  async order(list) {
+    list.forEach((o, i) => {
+      o.index = i + 1;
+    });
+    code.set('solutions', list).write();
+    this.resetStore(list);
+  },
+  buildArg(filename) {
+    return ['build', filename, '-p:TargetFramework=netcoreapp2.1', `-p:BuildPlatform=${process.platform}`];
+  },
   async load() {
     this.resetStore(code.get('solutions').value());
   },
@@ -31,23 +46,20 @@ const codeConfig = {
       sln.projects = await this.getProjects(sln.filepath);
       return sln;
     }));
-    store.dispatch('buildLoadSolution', solutions);
+    store.dispatch('buildLoadSolution', solutions.sort((a, b) => a.index - b.index));
   },
-
   async getProjects(sln) {
     const projList = [];
     try {
       const res = await Process.exec(`dotnet sln ${sln} list`);
 
       if (res.exitCode === 0) {
-        console.log('get proj ', sln, res);
         const projs = res.stdout.replace(/\r\n/g, '\n').split('\n');
         const dirname = path.dirname(sln);
         projs.forEach((proj) => {
           // console.log(proj);
           const projpath = path.join(dirname, proj);
           if (proj && fs.existsSync(projpath)) {
-            console.log(proj);
             projList.push({ name: path.basename(projpath, '.csproj'), filepath: projpath });
           }
         });
@@ -55,7 +67,7 @@ const codeConfig = {
     } catch (e) {
       console.log(e);
     }
-    return []; // projList;
+    return projList;
   },
 };
 

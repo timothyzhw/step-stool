@@ -57,11 +57,13 @@
     "electron": "^2.0.0",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.2",
+    "iconv-lite": "^0.4.23",
     "iview": "^3.0.0",
     "lowdb": "^1.0.0",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
+    "vuedraggable": "^2.16.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

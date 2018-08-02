@@ -86,10 +86,10 @@
         //   console.log(error);
         //   // error handling
         // }
-        const process = Process.spawnUtil('dotnet', ['build', '/home/tim/Documents/vashare/vashare/Core/VaShare.Core.All.sln', '-p:TargetFramework=netstandard2.0', '-p:BuildPlatform=linux'], null,
+        const process = await Process.spawnSync('dotnet', null, null,
           // const process = Process.spawnUtil('pwd', [], null,
           (data) => {
-            console.log(`msg: ${data}`);
+            // console.log(`msg: ${data}`);
             this.logs.push(data.toString());
           },
           (data) => {

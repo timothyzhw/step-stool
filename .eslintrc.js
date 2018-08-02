@@ -30,6 +30,7 @@ module.exports = {
     'max-len': 0,
     'padded-blocks': 0,
     'linebreak-style': 0,
+    'no-await-in-loop':0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

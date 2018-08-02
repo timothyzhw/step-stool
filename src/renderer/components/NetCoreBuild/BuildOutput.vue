@@ -2,6 +2,7 @@
     <div class="output">
         <div class="bar">
             <Button @click="build">编译</Button>
+            <Button @click="buildCleanLog">清空</Button>
         </div>
         <div class="logs">
             <div v-for="log in logs">
@@ -13,9 +14,11 @@
 </template>
 
 <script>
+  import iconv from 'iconv-lite';
   import { mapState, mapActions } from 'vuex';
   import cf from '../../util/build/codeConfig';
   import Process from '../../util/process';
+
 
   export default {
     name: 'BuildOutput',
@@ -35,19 +38,19 @@
       }),
     },
     methods: {
-      ...mapActions(['buildAddLog']),
+      ...mapActions(['buildAddLog', 'buildCleanLog']),
       addSolution() {
         cf.add();
       },
-      build() {
+      async build() {
+        this.buildCleanLog();
         const slns = this.solutions.filter(sln => sln.checked);
         slns.sort((a, b) => a.index - b.index);
-        slns.forEach((sln) => {
-          const process = Process.spawnUtil('dotnet', ['build', sln.filepath, '-p:TargetFramework=netstandard2.0', '-p:BuildPlatform=linux'], null,
-            // const process = Process.spawnUtil('pwd', [], null,
+        for (let i = 0; i < slns.length; i += 1) {
+          const sln = slns[i];
+          const result = await Process.spawnAsync('dotnet', cf.buildArg(sln.filepath), null,
             (data) => {
-              console.log(`msg: ${data}`);
-              this.buildAddLog({ log: data.toString() });
+              this.buildAddLog({ log: iconv.decode(data, 'gbk') });
             },
             (data) => {
               console.log(`error msg: ${data}`);
@@ -56,13 +59,19 @@
             (code) => {
               console.log(`end with ${code}`);
             });
-        });
+          if (result !== 0) {
+            console.error('build error~', result);
+            return;
+          }
+        }
       },
     },
     created() {
       // cf.load();
-    },
-  };
+    }
+    ,
+  }
+  ;
 </script>
 
 <style scoped>

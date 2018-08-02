@@ -54,6 +54,14 @@ function ignoreClosedInputStream(process) {
   });
 }
 
+async function sleep(timeout) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, timeout);
+  });
+}
+
 export default class Process {
   static getName() {
     return 'Process Name';
@@ -121,6 +129,40 @@ export default class Process {
     }
 
     return spawnedProcess;
+  }
+
+  static async spawnAsync(command, args, options, stdout, stderr, close) {
+
+    console.log(command, args);
+    let customEnv = {};
+
+    if (options && options.env) {
+      customEnv = options.env;
+    }
+    // customEnv.cwd = '/Users/tim/Vashare/vashare/Core';
+    return new Promise((resolve, reject) => {
+      const spawnedProcess = spawn(command, args, customEnv);
+      ignoreClosedInputStream(spawnedProcess);
+
+      if (stdout) {
+        spawnedProcess.stdout.on('data', (data) => {
+          stdout(data);
+        });
+      }
+
+      if (stderr) {
+        spawnedProcess.stderr.on('data', (data) => {
+          stderr(data);
+        });
+      }
+
+      spawnedProcess.on('close', (code) => {
+        if (close) {
+          close(code);
+        }
+        resolve(code);
+      });
+    });
   }
 
   /**

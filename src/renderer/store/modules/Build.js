@@ -20,6 +20,9 @@ const mutations = {
       state.logs.push(log.log);
     }
   },
+  CLEAN_LOG(state, log) {
+    state.logs = [];
+  },
 };
 
 const actions = {
@@ -34,6 +37,9 @@ const actions = {
 
   buildAddLog(context, { log }) {
     context.commit('ADD_LOG', { log });
+  },
+  buildCleanLog(context) {
+    context.commit('CLEAN_LOG');
   },
 };
 
