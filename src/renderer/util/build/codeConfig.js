@@ -27,6 +27,14 @@ const codeConfig = {
     code.write();
     this.resetStore(slns);
   },
+  checkAll(checked) {
+    const slns = code.get('solutions').value();
+    slns.forEach((sln) => {
+      sln.checked = checked;
+    });
+    this.resetStore(slns);
+    code.write();
+  },
   async order(list) {
     list.forEach((o, i) => {
       o.index = i + 1;

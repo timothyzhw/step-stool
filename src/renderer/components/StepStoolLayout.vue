@@ -1,11 +1,10 @@
 <template>
     <div class="layout">
-        <Sider class="sider"
-               :collapsible="false" width="44">
-            <Menu active-name="1-2" theme="dark" mode="vertical" width="auto" :open-names="['1']">
+        <Sider class="sider" :collapsible="false" width="44">
+            <Menu  theme="dark" mode="vertical" width="auto" active-name="1">
                 <MenuItem name="1">
                     <Tooltip content="build solution" placement="right">
-                        <Icon type="ios-download" />
+                        <Icon type="ios-home" />
                     </Tooltip>
                 </MenuItem>
                 <MenuItem name="2">
@@ -40,7 +39,7 @@
 
 <style scoped>
     .layout {
-        border: 1px solid #d7dde4;
+        border: 0;
         background: #f5f7f9;
         position: relative;
         border-radius: 4px;
@@ -61,14 +60,15 @@
         height: 100%;
         left: 0;
         overflow: auto;
+        border-right: 1px solid #515a6e
     }
 
     .sider .ivu-icon {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .sider .ivu-menu-item {
-        padding: 14px 12px;
+        padding: 14px 10px;
     }
 
     .container {

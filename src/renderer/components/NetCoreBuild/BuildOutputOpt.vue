@@ -1,15 +1,24 @@
 <template>
-    <div class="output">
 
-        <div class="logs">
-            <div>
-                <div v-for="log in logs">
-                    <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0" style="color: red;">{{log}}</pre>
-                    <pre v-else>{{log}}</pre>
-                </div>
-            </div>
-        </div>
+    <div class="bar">
+        <Button type="primary" :loading="building" icon="ios-download" @click="build" size="small">
+            <span v-if="!building">Build Solution</span>
+            <span v-else>Building...</span>
+        </Button>
+
+        <Button @click="buildCleanLog" size="small" type="warning">clear logs</Button>
+
+        <Select v-model="buildTool" size="small" style="width:80px">
+            <Option value="MSBuild" key="MSBuild"> MSBuild</Option>
+            <Option value="dotnet" key="dotnet"> dotnet</Option>
+        </Select>
+
+        <Select v-model="targetFramework" size="small"  multiple style="width:210px">
+            <Option value="netcore" key="netcore"> netcore</Option>
+            <Option value="framework" key="framework"> framework</Option>
+        </Select>
     </div>
+
 </template>
 
 <script>
@@ -20,14 +29,14 @@
 
 
   export default {
-    name: 'BuildOutput',
+    name: 'BuildOutputOpt',
     data() {
       return {
-        indeterminate: true,
-        checkAll: false,
         solutionsList: [],
         checkSolutions: [],
-        errorLogs: [],
+        building: false,
+        buildTool: 'MSBuild',
+        targetFramework: [],
       };
     },
     computed: {
@@ -38,10 +47,9 @@
     },
     methods: {
       ...mapActions(['buildAddLog', 'buildCleanLog']),
-      addSolution() {
-        cf.add();
-      },
+
       async build() {
+        this.building = true;
         this.buildCleanLog();
         const slns = this.solutions.filter(sln => sln.checked);
         slns.sort((a, b) => a.index - b.index);
@@ -53,40 +61,33 @@
             },
             (data) => {
               console.log(`error msg: ${data}`);
-              this.errorLogs.push(data.toString());
             },
             (code) => {
               console.log(`end with ${code}`);
             });
           if (result !== 0) {
             console.error('build error~', result);
+            this.building = false;
             return;
           }
         }
+        this.building = false;
       },
     },
-    created() {
-      // cf.load();
-    }
-    ,
   }
   ;
 </script>
 
 <style scoped>
-    .output .bar {
+    .bar {
         font-size: 20px;
-        padding: 5px;
+        padding: 0 20px;
         text-align: right;
         height: 40px;
-        border-bottom: 1px solid #e1e4e8;
     }
 
     .output .bar i {
         cursor: pointer;
     }
 
-    .logs {
-        padding-left: 15px;
-    }
 </style>

@@ -1,15 +1,5 @@
 <template>
     <div class="solutionlist">
-        <div class="bar">
-            <Icon type="md-add-circle" @click="addSolution()"/>
-            <Icon type="md-remove-circle" @click="removeSolution()"/>
-
-            <Checkbox
-                    :indeterminate="indeterminate"
-                    :value="checkAll"
-                    @click.prevent.native="handleCheckAll">全选
-            </Checkbox>
-        </div>
         <CheckboxGroup v-model="checkedSolutions" @on-change="changeSelected">
             <Menu style="width: 100%;">
                 <draggable v-model="solutionList" @end="orderSolutions">
@@ -19,8 +9,8 @@
                             <Checkbox :label="sln.name">
                                 <span :title="sln.name">{{sln.name}}</span></Checkbox>
                         </template>
-                        <MenuItem style="padding-left:20px" :name="sln.index+'-'+index"
-                                  v-for="(proj,index) in sln.projects">{{proj.name}}
+                        <MenuItem class="menu-item" :name="sln.index+'-'+index"
+                                  v-for="(proj,index) in sln.projects" :title="proj.name" >{{proj.name}}
                         </MenuItem>
                     </Submenu>
                 </draggable>
@@ -107,18 +97,6 @@
 
     }
 
-    .solutionlist .bar {
-        font-size: 20px;
-        padding: 5px;
-        text-align: right;
-        height: 40px;
-        border-bottom: 1px solid #e1e4e8;
-    }
-
-    .solutionlist .bar i {
-        cursor: pointer;
-    }
-
     .solutionlist .ivu-menu-submenu-title {
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -138,5 +116,12 @@
 
     .ivu-menu-vertical.ivu-menu-light:after {
         width: 0;
+    }
+
+    .solutionlist .menu-item {
+        padding-left: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 </style>

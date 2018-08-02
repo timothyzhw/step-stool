@@ -3,13 +3,11 @@
         <template>
             <Header class="header">
                 <Split v-model="splitWidth">
-                    <div slot="left" class="split-left">
-                        no
+                    <div slot="left" class="split-left-opt">
+                        <solution-list-opt></solution-list-opt>
                     </div>
-                    <div slot="right" class="split-right">
-                        <Button @click="gitstatus()">git status</Button>
-                        <Button @click="spawn()">ifconfig</Button>
-                        <Button @click="testfile()">test</Button>
+                    <div slot="right" class="split-right-opt">
+                       <build-output-opt></build-output-opt>
                     </div>
                 </Split>
             </Header>
@@ -17,11 +15,10 @@
                 <Content class="content">
                     <Split v-model="splitWidth">
                         <div slot="left" class="split-left">
-                            <solution></solution>
+                            <solution-list></solution-list>
                         </div>
                         <div slot="right" class="split-right">
-                            <outputSection></outputSection>
-
+                            <build-output></build-output>
                         </div>
                     </Split>
 
@@ -42,8 +39,10 @@
   import { code } from '../util/datastore';
   import cf from '../util/build/codeConfig';
 
-  import solution from './NetCoreBuild/SolutionList.vue';
-  import outputSection from './NetCoreBuild/BuildOutput.vue';
+  import SolutionList from './NetCoreBuild/SolutionList.vue';
+  import BuildOutput from './NetCoreBuild/BuildOutput.vue';
+  import SolutionListOpt from './NetCoreBuild/SolutionListOpt';
+  import BuildOutputOpt from './NetCoreBuild/BuildOutputOpt';
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
   export default {
@@ -60,9 +59,11 @@
       };
     },
     components: {
+      BuildOutput,
+      SolutionListOpt,
       ssLayout,
-      solution,
-      outputSection,
+      SolutionList,
+      BuildOutputOpt,
     },
     methods: {
       async gitstatus() {
@@ -120,14 +121,14 @@
   //  electron-run-shell-example-master
 </script>
 
-<style scoped>
+<style >
     .header {
-        background: #fff;
+        background: #363e4f;
         padding: 0;
         position: fixed;
         top: 0;
-        height:50px;
-        left: 45px;
+        height:52px;
+        left: 44px;
         right: 0;
         line-height: 49px;
     }
@@ -139,9 +140,9 @@
     .content {
         /*border: 1px solid red;*/
         position: fixed;
-        top: 50px;
+        top: 52px;
         bottom: 10px;
-        left: 45px;
+        left: 44px;
         right: 0;
         border-top: 1px solid #e1e4e8;
     }
@@ -150,6 +151,18 @@
         height: 100%;
         overflow: auto;
         background-color: rgb(246, 248, 250);
+    }
+    .ivu-split-trigger-vertical {
+        width: 4px;
+        height: 100%;
+        background: transparent;
+        border-top: none;
+        border-bottom: none;
+        cursor: col-resize;
+        border-right: none;
+    }
+    .ivu-split-trigger-bar-con{
+        display:none;
     }
 
 
