@@ -71,7 +71,7 @@
         //   console.log(error);
         //   // error handling
         // }
-        console.log('test');
+        // console.log('test');
       },
       async spawn() {
         // const result = await Process.exec('ifconfig');

@@ -24,19 +24,11 @@ const codeConfig = {
   },
   async load() {
     this.resetStore(code.get('solutions').value());
-    // const slns = await Promise.all(.map(async (item) => {
-    //   const sln = Object.assign({}, item);
-    //   sln.projects = await this.getProjects(sln.filepath);
-    //   console.log(sln);
-    //   return sln;
-    // }));
-    // store.dispatch('buildLoadSolution', slns);
   },
   async resetStore(slns) {
     const solutions = await Promise.all(slns.map(async (item) => {
       const sln = Object.assign({}, item);
       sln.projects = await this.getProjects(sln.filepath);
-      console.log(sln);
       return sln;
     }));
     store.dispatch('buildLoadSolution', solutions);
@@ -70,8 +62,6 @@ const codeConfig = {
 codeConfig.load();
 
 ipcRenderer.on('build-code-add-dialog', async (event, filepath) => {
-
-  console.log(`You selected: ${filepath}`);
 
   if (fs.existsSync(filepath)) {
     const slns = code.get('solutions');
