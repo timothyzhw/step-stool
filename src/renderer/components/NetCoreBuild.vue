@@ -1,14 +1,21 @@
 <template>
     <ssLayout>
         <template>
-            <Header :style="{background: '#fff'}">
-                <Button @click="gitstatus()">git status</Button>
-                <Button @click="spawn()">ifconfig</Button>
-                <Button @click="testfile()">test</Button>
+            <Header class="header">
+                <Split v-model="splitWidth">
+                    <div slot="left" class="split-left">
+                        no
+                    </div>
+                    <div slot="right" class="split-right">
+                        <Button @click="gitstatus()">git status</Button>
+                        <Button @click="spawn()">ifconfig</Button>
+                        <Button @click="testfile()">test</Button>
+                    </div>
+                </Split>
             </Header>
             <Content class="main-container">
                 <Content class="content">
-                    <Split v-model="split1">
+                    <Split v-model="splitWidth">
                         <div slot="left" class="split-left">
                             <solution></solution>
                         </div>
@@ -43,7 +50,7 @@
     name: 'NetCoreBuild',
     data() {
       return {
-        split1: 0.3,
+        splitWidth: 0.3,
         errorText: '',
         statusText: '',
         spawnText: '',
@@ -55,7 +62,7 @@
     components: {
       ssLayout,
       solution,
-      outputSection
+      outputSection,
     },
     methods: {
       async gitstatus() {
@@ -114,6 +121,16 @@
 </script>
 
 <style scoped>
+    .header {
+        background: #fff;
+        padding: 0;
+        position: fixed;
+        top: 0;
+        height:50px;
+        left: 45px;
+        right: 0;
+        line-height: 49px;
+    }
 
     .main-container {
         padding: 0;
@@ -134,7 +151,6 @@
         overflow: auto;
         background-color: rgb(246, 248, 250);
     }
-
 
 
 </style>

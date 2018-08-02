@@ -5,9 +5,11 @@
             <Button @click="buildCleanLog">清空</Button>
         </div>
         <div class="logs">
-            <div v-for="log in logs">
-                <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0" style="color: red;">{{log}}</pre>
-                <pre v-else>{{log}}</pre>
+            <div>
+                <div v-for="log in logs">
+                    <pre v-if="log.indexOf('Error')>0 || log.indexOf('error')>0" style="color: red;">{{log}}</pre>
+                    <pre v-else>{{log}}</pre>
+                </div>
             </div>
         </div>
     </div>
