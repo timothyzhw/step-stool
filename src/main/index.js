@@ -24,7 +24,7 @@ function createWindow() {
     useContentSize: true,
     width: 1000,
   });
-
+  console.log(winURL);
   mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
