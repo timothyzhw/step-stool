@@ -26,6 +26,7 @@ function createWindow() {
   });
   console.log(winURL);
   mainWindow.loadURL(winURL);
+  // mainWindow.toggleDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

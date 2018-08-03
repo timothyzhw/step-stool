@@ -9,8 +9,9 @@
                             <Checkbox :label="sln.name">
                                 <span :title="sln.name">{{sln.name}}</span></Checkbox>
                         </template>
-                        <MenuItem class="menu-item" :name="sln.index+'-'+index"
-                                  v-for="(proj,index) in sln.projects" :title="proj.name" >{{proj.name}}
+                        <MenuItem class="menu-item" :name="sln.index+'-'+index" v-for="(proj,index) in sln.projects"
+                                  :title="proj.name" :key="proj.name">
+                            {{proj.name}}
                         </MenuItem>
                     </Submenu>
                 </draggable>
@@ -30,10 +31,8 @@
       return {
         indeterminate: true,
         checkAll: false,
-        solutionsList: [],
         checkedSolutions: [],
-        solutionList: [],
-        myArray: [],
+        solutionList: this.solutions ? [...this.solutions] : [],
       };
     },
     watch: {

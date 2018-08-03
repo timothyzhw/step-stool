@@ -8,15 +8,11 @@ export default new Router({
     {
       path: '/',
       name: 'landing-page',
-      component: require('@/components/LandingPage').default,
+      component: require('@/components/NetCoreBuild').default,
     }, {
       path: '/netcorebuild',
       name: 'netcorebuild',
       component: require('@/components/NetCoreBuild').default,
-    }, {
-      path: '/solution',
-      name: 'solution',
-      component: require('@/components/SolutionAnalyse').default,
     },
     {
       path: '*',

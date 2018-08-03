@@ -1,9 +1,10 @@
 import path from 'path';
 import fse from 'fs-extra';
+import os from 'os';
 
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
-const appPath = path.join(process.env.HOME, '.StepStool');
+const appPath = path.join(os.homedir(), '.StepStool');
 
 // const blogPath = path.join(app.getPath('userData'), '.StepStool');
 
