@@ -22,6 +22,7 @@ module.exports = {
     'no-shadow': 0,
     'import/extensions': 0,
     'import/newline-after-import': 0,
+    'import/no-extraneous-dependencies': 0,
     'no-multi-assign': 0,
     'comma-dangle': 0,
     'no-unused-vars': 0,

@@ -62,6 +62,7 @@ function loadCodeBuild() {
 }
 
 loadCodeBuild();
+require('electron-debug')({ showDevTools: true });
 /**
  * Auto Updater
  *
