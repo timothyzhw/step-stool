@@ -42,9 +42,6 @@ const codeConfig = {
     code.set('solutions', list).write();
     this.resetStore(list);
   },
-  buildArg(filename) {
-    return ['build', filename, '-p:TargetFramework=netcoreapp2.1', `-p:BuildPlatform=${process.platform}`];
-  },
   async load() {
     this.resetStore(code.get('solutions').value());
   },
@@ -58,6 +55,9 @@ const codeConfig = {
   },
   async getProjects(sln) {
     const projList = [];
+    if (true) {
+      return projList;
+    }
     try {
       const res = await Process.exec(`dotnet sln ${sln} list`);
 
@@ -77,6 +77,34 @@ const codeConfig = {
     }
     return projList;
   },
+  get tool() {
+    console.log('tt');
+    if (!code.has('tool').value()) {
+      const tool = 'MSBuild';
+      this.tool = tool;
+      return tool;
+    }
+    // console.log(code.get('tool').value());
+    return code.get('tool').value();
+  },
+  set tool(value) {
+    console.log(value);
+    code.set('tool', value).write();
+  },
+  get target() {
+    if (!code.has('target').value()) {
+      const t = ['netcoreapp2.1'];
+      this.target = t;
+      return t;
+    }
+    return code.get('target').value();
+  },
+  set target(value) {
+    code.set('target', value).write();
+  },
+  openFolder(filename){
+    
+  }
 };
 
 codeConfig.load();

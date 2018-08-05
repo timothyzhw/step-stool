@@ -141,27 +141,36 @@ export default class Process {
     }
     // customEnv.cwd = '/Users/tim/Vashare/vashare/Core';
     return new Promise((resolve, reject) => {
-      const spawnedProcess = spawn(command, args, customEnv);
-      ignoreClosedInputStream(spawnedProcess);
+      try {
+        const spawnedProcess = spawn(command, args, customEnv);
+        ignoreClosedInputStream(spawnedProcess);
 
-      if (stdout) {
-        spawnedProcess.stdout.on('data', (data) => {
-          stdout(data);
+        spawnedProcess.on('error', (err) => {
+          console.log(err);
+          resolve({ exitCode: 1, error: err });
         });
-      }
 
-      if (stderr) {
-        spawnedProcess.stderr.on('data', (data) => {
-          stderr(data);
-        });
-      }
-
-      spawnedProcess.on('close', (code) => {
-        if (close) {
-          close(code);
+        if (stdout) {
+          spawnedProcess.stdout.on('data', (data) => {
+            stdout(data);
+          });
         }
-        resolve(code);
-      });
+
+        if (stderr) {
+          spawnedProcess.stderr.on('data', (data) => {
+            stderr(data);
+          });
+        }
+
+        spawnedProcess.on('close', (code) => {
+          if (close) {
+            close(code);
+          }
+          resolve({ exitCode: code });
+        });
+      } catch (e) {
+        resolve({ exitCode: 1, error: e });
+      }
     });
   }
 

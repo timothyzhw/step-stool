@@ -8,6 +8,15 @@
                         <template slot="title">
                             <Checkbox :label="sln.name">
                                 <span :title="sln.name">{{sln.name}}</span></Checkbox>
+                            <Dropdown class="open" placement="right-start">
+                                <a href="javascript:void(0)">
+                                    <Icon type="md-open"></Icon>
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem>open folder</DropdownItem>
+                                    <DropdownItem>open solution</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </template>
                         <MenuItem class="menu-item" :name="sln.index+'-'+index" v-for="(proj,index) in sln.projects"
                                   :title="proj.name" :key="proj.name">
@@ -37,7 +46,7 @@
     },
     watch: {
       solutions: function sl(v, oldv) {
-        console.log(this.solutions.filter(item => item.checked));
+        // console.log(this.solutions.filter(item => item.checked));
         this.checkedSolutions = this.solutions.filter(item => item.checked).map(item => item.name);
         this.solutionList = this.solutions;
       },
@@ -105,8 +114,13 @@
     .solutionlist .ivu-menu-submenu-title-icon {
         position: absolute;
         top: 10px;
-        right: 0;
+        right: 10px;
         display: none;
+    }
+    .solutionlist .open {
+        position: absolute;
+        top: 10px;
+        right: 10px;
     }
 
     .solutionlist .ivu-menu-item, .solutionlist .ivu-menu-submenu-title {

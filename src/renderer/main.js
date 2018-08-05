@@ -3,6 +3,7 @@ import axios from 'axios';
 import iView from 'iview';
 
 import 'iview/dist/styles/iview.css';
+import './theme/index.less';
 
 import App from './App';
 import router from './router';
