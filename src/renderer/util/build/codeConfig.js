@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
@@ -102,9 +102,9 @@ const codeConfig = {
   set target(value) {
     code.set('target', value).write();
   },
-  openFolder(filename){
-    
-  }
+  openFolder(filename) {
+    shell.showItemInFolder(filename);
+  },
 };
 
 codeConfig.load();

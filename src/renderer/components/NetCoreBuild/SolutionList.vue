@@ -8,13 +8,13 @@
                         <template slot="title">
                             <Checkbox :label="sln.name">
                                 <span :title="sln.name">{{sln.name}}</span></Checkbox>
-                            <Dropdown class="open" placement="right-start">
+                            <Dropdown class="open" placement="right-start" @on-click="openFolder(sln.filepath)">
                                 <a href="javascript:void(0)">
                                     <Icon type="md-open"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem>open folder</DropdownItem>
-                                    <DropdownItem>open solution</DropdownItem>
+                                    <DropdownItem name="folder" @click="openFolder(sln.filepath)">open folder</DropdownItem>
+                                    <DropdownItem name="file">open solution</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </template>
@@ -90,6 +90,10 @@
       changeSelected(data) {
         cf.checked(data);
       },
+      openFolder(file) {
+        console.log(...arguments);
+        cf.openFolder(file);
+      },
     },
     mounted() {
       // cf.load();
@@ -117,6 +121,7 @@
         right: 10px;
         display: none;
     }
+
     .solutionlist .open {
         position: absolute;
         top: 10px;
