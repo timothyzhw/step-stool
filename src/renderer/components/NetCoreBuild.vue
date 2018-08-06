@@ -123,7 +123,7 @@
 
 <style >
     .header {
-        background: #363e4f;
+        background: rgb(37, 37, 38);
         padding: 0;
         position: fixed;
         top: 0;
@@ -131,6 +131,7 @@
         left: 44px;
         right: 0;
         line-height: 49px;
+        box-shadow: 0 2px 8px #000;
     }
 
     .main-container {

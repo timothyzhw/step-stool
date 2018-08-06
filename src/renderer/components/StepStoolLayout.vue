@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <Sider class="sider" :collapsible="false" width="44">
-            <Menu theme="dark" mode="vertical" width="auto" active-name="build" @on-select="gotoPage">
+            <Menu theme="dark" mode="vertical" width="auto" @on-select="gotoPage">
                 <MenuItem name="build">
                     <Tooltip content="build solution" placement="right">
                         <Icon type="ios-home"/>
@@ -70,7 +70,7 @@
         height: 100%;
         left: 0;
         overflow: auto;
-        border-right: 1px solid #515a6e
+        border-right: 1px solid rgb(51,51,51);
     }
 
     .sider .ivu-icon {
