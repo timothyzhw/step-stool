@@ -8,12 +8,12 @@
                         <template slot="title">
                             <Checkbox :label="sln.name">
                                 <span :title="sln.name">{{sln.name}}</span></Checkbox>
-                            <Dropdown class="open" placement="right-start" @on-click="openFolder(sln.filepath)">
+                            <Dropdown class="open" placement="right-start" @on-click="v=>openFolder(v,sln.filepath)">
                                 <a href="javascript:void(0)">
                                     <Icon type="md-open"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem name="folder" @click="openFolder(sln.filepath)">open folder</DropdownItem>
+                                    <DropdownItem name="folder">open folder</DropdownItem>
                                     <DropdownItem name="file">open solution</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
@@ -41,7 +41,7 @@
         indeterminate: true,
         checkAll: false,
         checkedSolutions: [],
-        solutionList: this.solutions ? [...this.solutions] : [],
+        solutionList: [],
       };
     },
     watch: {
@@ -73,30 +73,21 @@
       orderSolutions() {
         cf.order(this.solutionList);
       },
-      handleCheckAll() {
-        if (this.indeterminate) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = !this.checkAll;
-        }
-        this.indeterminate = false;
-
-        if (this.checkAll) {
-          this.checkAllGroup = ['香蕉', '苹果', '西瓜'];
-        } else {
-          this.checkAllGroup = [];
-        }
-      },
       changeSelected(data) {
         cf.checked(data);
       },
-      openFolder(file) {
-        console.log(...arguments);
-        cf.openFolder(file);
+      openFolder(v, file) {
+        if (v === 'folder') {
+          cf.openFolder(file);
+        } else if (v === 'file') {
+          cf.openFile(file);
+        }
       },
     },
     mounted() {
       // cf.load();
+      console.log(this.solutions);
+      this.solutionList = this.solutions ? [...this.solutions] : [];
     },
     components: {
       draggable,

@@ -7,9 +7,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
+      name: 'netcore-build',
       component: require('@/components/NetCoreBuild').default,
     }, {
+      path: '/setting',
+      name: 'setting',
+      component: require('@/components/GlobalSetting').default,
+    },
+    {
       path: '/netcorebuild',
       name: 'netcorebuild',
       component: require('@/components/NetCoreBuild').default,

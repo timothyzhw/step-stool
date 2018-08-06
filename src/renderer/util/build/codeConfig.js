@@ -78,7 +78,6 @@ const codeConfig = {
     return projList;
   },
   get tool() {
-    console.log('tt');
     if (!code.has('tool').value()) {
       const tool = 'MSBuild';
       this.tool = tool;
@@ -104,6 +103,9 @@ const codeConfig = {
   },
   openFolder(filename) {
     shell.showItemInFolder(filename);
+  },
+  openFile(filename) {
+    shell.openItem(filename);
   },
 };
 

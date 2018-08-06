@@ -73,8 +73,8 @@
         slns.sort((a, b) => a.index - b.index);
         for (let i = 0; i < slns.length; i += 1) {
           const sln = slns[i];
-          const result = await Process.spawnAsync(this.buildTool,
-            this.buildArg(sln.filepath, this.targetFramework), null,
+          const result = await Process.spawnAsync('C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\MSBuild\\15.0\\Bin\\MSBuild',
+            this.buildArg(this.buildTool, sln.filepath, this.targetFramework), null,
             (data) => {
               this.buildAddLog({ log: iconv.decode(data, 'gbk') });
             },
@@ -84,7 +84,7 @@
             (code) => {
               console.log(`end with ${code}`);
             });
-          if (result !== 0) {
+          if (result.exitCode !== 0) {
             console.error('build error~', result);
             this.building = false;
             return;
@@ -92,13 +92,25 @@
         }
         this.building = false;
       },
-      buildArg(filename, target) {
-        const args = ['build', filename, `-p:BuildPlatform=${process.platform}`];
-        if (target) {
-          target.forEach(t => args.push(`-p:TargetFramework=${t}`));
+      buildArg(tool, filename, target) {
+        if (tool === 'MSBuild') {
+          const args = ['/t:restore', `/p:BuildPlatform=${process.platform}`];
+          if (target) {
+            target.forEach(t => args.push(`/p:TargetFramework=${t}`));
+          }
+          args.push(filename);
+          return args;
+          // 'MSBuild  /t:restore /p:TargetFramework=net461 /t:Rebuild ./${sln}/VaShare.${sln}.All.sln'
+        } else if (tool === 'dotnet') {
+          const args = ['build', filename, `-p:BuildPlatform=${process.platform}`];
+          if (target) {
+            target.forEach(t => args.push(`-p:TargetFramework=${t}`));
+          }
+          return args;
         }
+
         // '-p:TargetFramework=netcoreapp2.1', ];
-        return args;
+        return [];
       },
     },
   }

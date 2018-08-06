@@ -1,18 +1,18 @@
 <template>
     <div class="layout">
         <Sider class="sider" :collapsible="false" width="44">
-            <Menu  theme="dark" mode="vertical" width="auto" active-name="1">
-                <MenuItem name="1">
+            <Menu theme="dark" mode="vertical" width="auto" active-name="build" @on-select="gotoPage">
+                <MenuItem name="build">
                     <Tooltip content="build solution" placement="right">
-                        <Icon type="ios-home" />
+                        <Icon type="ios-home"/>
                     </Tooltip>
                 </MenuItem>
-                <MenuItem name="2">
+                <MenuItem name="deploy">
                     <Tooltip content="pack and deploy" placement="right">
                         <Icon type="md-cloud-upload"/>
                     </Tooltip>
                 </MenuItem>
-                <MenuItem name="3">
+                <MenuItem name="setting">
                     <Tooltip content="setting" placement="right">
                         <Icon type="md-settings"/>
                     </Tooltip>
@@ -33,7 +33,17 @@
 
   const pathToRepository = '/home/timothy/Documents/step-stool/';
   export default {
-    name: 'ss_layout'
+    name: 'ss_layout',
+    methods: {
+      gotoPage(name) {
+        console.log(name);
+        if (name === 'build') {
+          this.$router.push('/');
+        } else if (name === 'setting') {
+          this.$router.push('/setting');
+        }
+      },
+    },
   };
 </script>
 
