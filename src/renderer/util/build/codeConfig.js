@@ -1,10 +1,12 @@
 import { ipcRenderer, shell } from 'electron';
 import fs from 'fs';
 import path from 'path';
+// import terminal from 'terminal-tab';
 
 import { code } from '../datastore';
 import store from '../../store';
 import Process from '../process';
+import Terminal from '../terminal';
 
 const codeConfig = {
   add() {
@@ -106,6 +108,9 @@ const codeConfig = {
   },
   openFile(filename) {
     shell.openItem(filename);
+  },
+  openTerminal(filename) {
+    Terminal(`echo "${filename}"`, { cwd: path.dirname(filename) });
   },
 };
 

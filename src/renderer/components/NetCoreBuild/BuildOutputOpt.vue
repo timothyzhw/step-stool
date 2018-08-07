@@ -94,7 +94,7 @@
       },
       buildArg(tool, filename, target) {
         if (tool === 'MSBuild') {
-          const args = ['/t:restore', `/p:BuildPlatform=${process.platform}`];
+          const args = ['/t:restore', `/p:BuildPlatform=${process.platform}`, '/t:Rebuild'];
           if (target) {
             target.forEach(t => args.push(`/p:TargetFramework=${t}`));
           }

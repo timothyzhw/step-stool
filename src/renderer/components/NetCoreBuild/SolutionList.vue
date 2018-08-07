@@ -15,6 +15,7 @@
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="folder">open folder</DropdownItem>
                                     <DropdownItem name="file">open solution</DropdownItem>
+                                    <DropdownItem name="terminal">open terminal</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </template>
@@ -81,6 +82,8 @@
           cf.openFolder(file);
         } else if (v === 'file') {
           cf.openFile(file);
+        } else if (v === 'terminal') {
+          cf.openTerminal(file);
         }
       },
     },
