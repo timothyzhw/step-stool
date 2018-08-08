@@ -85,7 +85,7 @@ const openTab = {
     `"${cmd.replace(/"/g, '\\"')}" `,
     'in selected tab of the front window\''].join(''),
   linux: openLinux,
-  win: cmd => `start "C:\\Program Files\\ConEmuConEmu64.exe" ${cmd}`,
+  win: cmd => `start cmd /K ${cmd}`,
 };
 
 const defaultConfig = {
